@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,18 +15,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.android_cbc_java.newsstory.NewsStory;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder>
 {
-    private List<NewsStory> newsStories;
+    private List<NewsStory> newsStories = new ArrayList<>();
     private Context context;
 
     public NewsAdapter(Context context, List<NewsStory> data){
         this.context = context;
         this.newsStories = data;
     }
-
     class NewsViewHolder extends RecyclerView.ViewHolder
     {
 
@@ -66,5 +69,15 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     public int getItemCount()
     {
         return newsStories.size();
+    }
+
+    public void updateRecyclerData(List<NewsStory> data)
+    {
+        newsStories = data;
+        notifyDataSetChanged();
+    }
+    public List<NewsStory> getNewsStories()
+    {
+        return newsStories;
     }
 }
