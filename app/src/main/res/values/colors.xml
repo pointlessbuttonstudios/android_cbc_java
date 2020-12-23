@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-->color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color> -->
+    <!-- blue theme -->
+    <color name="colorPrimaryDark">#1E88E5</color>
+    <color name="colorAccent">#0D47A1</color>
+    <color name="colorPrimary2">#1A237E</color>
+    <color name="colorPrimary">#1B234F</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+</resources>

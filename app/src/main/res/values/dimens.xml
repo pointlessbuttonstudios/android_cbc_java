@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="mini">3dp</dimen>
+    <dimen name="small">5dp</dimen>
+    <dimen name="standard">10dp</dimen>
+    <dimen name="standard_large">16dp</dimen>
+
+    <dimen name="loading_circle">30dp</dimen>
+    <dimen name="detail_header_mt">35dp</dimen>
+    <dimen name="detail_text_block_margin_sides">45dp</dimen>
+    <dimen name="divider_margin_sides">28dp</dimen>
+    <dimen name="list_profile_image">75dp</dimen>
+    <dimen name="loading_logo_top">125dp</dimen>
+    <dimen name="loading_logo">150dp</dimen>
+</resources>
