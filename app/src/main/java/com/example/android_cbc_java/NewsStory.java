@@ -26,8 +26,11 @@ public class NewsStory
     @SerializedName("title")
     private String title;
 
-    @SerializedName("imageSmall")
-    private String imageSmall;
+    @SerializedName("typeAttributes")
+    private TypeAttributes typeAttributes;
+
+    @SerializedName("readablePublishedAt")
+    private String readablePublishedAt;
 
     @SerializedName("type")
     private String type;
@@ -36,46 +39,62 @@ public class NewsStory
     {
 
     }
-    public NewsStory(String id, String title, String imgURL, String type)
+    public NewsStory(String id, String title, TypeAttributes typeAttributes, String type, String readablePublishedAt)
     {
         this.id = id;
         this.title = title;
-        this.imageSmall = imgURL;
+        this.typeAttributes = typeAttributes;
         this.type = type;
+        this.readablePublishedAt = readablePublishedAt;
     }
 
     public String getId()
     {
         return id;
     }
-
     public void setId(String id)
     {
         this.id = id;
     }
-
     public String getTitle()
     {
         return title;
     }
-
-    public String getImageSmall()
-    {
-        return imageSmall;
-    }
-
-    public void setImageSmall(String imageSmall)
-    {
-        this.imageSmall = imageSmall;
-    }
-
     public String getType()
     {
         return type;
     }
-
     public void setType(String type)
     {
         this.type = type;
+    }
+    public String getReadablePublishedAt()
+    {
+        return readablePublishedAt;
+    }
+    public void setReadablePublishedAt(String readablePublishedAt)
+    {
+        this.readablePublishedAt = readablePublishedAt;
+    }
+    public TypeAttributes getTypeAttributes()
+    {
+        return typeAttributes;
+    }
+    public void setTypeAttributes(TypeAttributes typeAttributes)
+    {
+        this.typeAttributes = typeAttributes;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "NewsStory" +
+                "\n{" +
+                "\nid='" + id + '\'' +
+                "\ntitle='" + title + '\'' +
+                "\ntypeAttributes=" + typeAttributes.toString() +
+                "\nreadablePublishedAt='" + readablePublishedAt + '\'' +
+                "\ntype='" + type + '\'' +
+                '}';
     }
 }

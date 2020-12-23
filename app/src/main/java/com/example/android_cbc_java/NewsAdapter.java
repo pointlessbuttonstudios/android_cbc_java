@@ -54,8 +54,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         NewsStory newsStory = newsStories.get(position);
         Log.d(this.getClass().getSimpleName(), newsStory.getTitle());
         holder.headline.setText(newsStory.getTitle());
-        holder.date.setText(newsStory.getType());
-        Glide.with(context).load(newsStory.getImageSmall())
+        holder.date.setText(newsStory.getReadablePublishedAt());
+
+        //Log.d(this.getClass().getSimpleName(), newsStory.getImageSmall());
+        Glide.with(context).load(newsStory.getTypeAttributes().getImageSmall())
                 .apply(Utility.imageHandler())
                 .into(holder.image);
     }

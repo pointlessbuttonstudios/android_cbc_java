@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.android_cbc_java.network.RetrofitClientInstance;
@@ -51,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
     /*Method to generate List of data using RecyclerView with custom adapter*/
     private void generateDataList(List<NewsStory> newsList)
     {
+        for(NewsStory ns : newsList)
+        {
+            Log.d(this.getLocalClassName(), ns.toString());
+        }
         recyclerView = findViewById(R.id.news_recyclerview);
         news = new NewsAdapter(this, newsList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
