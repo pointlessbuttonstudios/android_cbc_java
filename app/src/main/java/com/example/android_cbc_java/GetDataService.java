@@ -1,5 +1,7 @@
 package com.example.android_cbc_java;
 
+import com.example.android_cbc_java.newsstory.NewsStory;
+
 import java.util.List;
 
 import retrofit2.Call;
