@@ -15,7 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.android_cbc_java.newsstory.NewsStory;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -58,10 +62,18 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         NewsStory newsStory = newsStories.get(position);
         Log.d(this.getClass().getSimpleName(), newsStory.getTitle());
         holder.headline.setText(newsStory.getTitle());
-        holder.date.setText(newsStory.getReadablePublishedAt());
-
-        //Log.d(this.getClass().getSimpleName(), newsStory.getImageSmall());
-        Glide.with(context).load(newsStory.getTypeAttributes().getImageSmall())
+        try
+        {
+            String justTheDate = newsStory.getReadablePublishedAt().split(",")[0];
+            holder.date.setText(justTheDate);
+        }
+        catch (Exception e)
+        {
+            holder.date.setText(newsStory.getReadablePublishedAt());
+            e.printStackTrace();
+            Log.e(getClass().getSimpleName(), e.getMessage());
+        }
+        Glide.with(context).load(newsStory.getTypeAttributes().getImageLarge())
                 .apply(Utility.imageHandler())
                 .into(holder.image);
     }

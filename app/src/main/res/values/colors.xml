@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color> -->
     <!-- blue theme -->
+    <color name = "color_light_blue">#D6EAF8</color>
     <color name="colorPrimaryDark">#1E88E5</color>
     <color name="colorAccent">#0D47A1</color>
     <color name="colorPrimary2">#1A237E</color>

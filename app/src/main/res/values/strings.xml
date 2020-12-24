@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">android_cbc_java</string>
-    <string name="headline">Will the Queen meet any of her family outside at Christmas? How royal festive traditions change with the times</string>
-    <string name="published_on">Dec 20 2020, 09:00:00 AM UTC</string>
+    <string name="dummy_headline">Will the Queen meet any of her family outside at Christmas? How royal festive traditions change with the times</string>
+    <string name="dummy_published_on">Dec 20 2020, 09:00:00 AM UTC</string>
     <string name="please_select_a_filter_type">Please select a filter type</string>
     <string name="select_a_filter">Select a filter:</string>
     <string name="browsing_in_offline_mode">Browsing in Offline Mode</string>
