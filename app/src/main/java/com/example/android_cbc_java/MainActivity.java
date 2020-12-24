@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity
         toolbar.setTitle("CBC News");
         setSupportActionBar(toolbar);
 
-         newsStoryViewModel = ViewModelProviders.of(this).get(NewsStoryViewModel.class);
+        newsStoryViewModel = ViewModelProviders.of(this).get(NewsStoryViewModel.class);
         // Create Utility Singleton
         Utility.init(this, newsStoryViewModel);
 

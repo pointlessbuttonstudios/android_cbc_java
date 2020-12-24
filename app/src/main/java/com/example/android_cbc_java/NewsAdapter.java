@@ -5,37 +5,47 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.paging.PagedListAdapter;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.android_cbc_java.newsstory.NewsStory;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder>
+public class NewsAdapter extends PagedListAdapter<NewsStory, NewsAdapter.NewsViewHolder>
 {
+    private static DiffUtil.ItemCallback<NewsStory> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<NewsStory>()
+            {
+                @Override
+                public boolean areItemsTheSame(NewsStory oldStory, NewsStory newsStory)
+                {
+                    return oldStory.getId() == newsStory.getId();
+                }
+                @Override
+                public boolean areContentsTheSame(NewsStory oldStory, NewsStory newStory)
+                {
+                    return oldStory.equals(newStory);
+                }
+            };
+
     private List<NewsStory> newsStories;
     private Context context;
-
-    public NewsAdapter(Context context, List<NewsStory> data){
+    public NewsAdapter(Context context, List<NewsStory> data)
+    {
+        super(DIFF_CALLBACK);
         this.context = context;
         this.newsStories = data;
     }
     class NewsViewHolder extends RecyclerView.ViewHolder
     {
-
-        public final View view;
+        public View view;
         TextView headline;
         TextView date;
         private ImageView image;
@@ -48,6 +58,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             headline = view.findViewById(R.id.headline);
             image = view.findViewById(R.id.image);
         }
+        public void clear()
+        {
+            view = null;
+        }
     }
     @Override
     public NewsViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
@@ -56,6 +70,37 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         View view = layoutInflater.inflate(R.layout.list_item_news_story, parent, false);
         return new NewsViewHolder(view);
     }
+    @Override
+    public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
+        NewsStory newsStory = newsStories.get(position);
+        if (newsStory != null) 
+        {
+            Log.d(this.getClass().getSimpleName(), newsStory.getTitle());
+            holder.headline.setText(newsStory.getTitle());
+            try
+            {
+                String justTheDate = newsStory.getReadablePublishedAt().split(",")[0];
+                holder.date.setText(justTheDate);
+            }
+            catch (Exception e)
+            {
+                holder.date.setText(newsStory.getReadablePublishedAt());
+                e.printStackTrace();
+                Log.e(getClass().getSimpleName(), e.getMessage());
+            }
+            Glide.with(context).load(newsStory.getTypeAttributes().getImageLarge())
+                    .apply(Utility.imageHandler())
+                    .into(holder.image);
+        } 
+        else 
+        {
+            // Null defines a placeholder item - PagedListAdapter automatically
+            // invalidates this row when the actual object is loaded from the
+            // database.
+            holder.clear();
+        }
+    }
+    /*
     @Override
     public void onBindViewHolder(NewsViewHolder holder, int position)
     {
@@ -76,7 +121,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         Glide.with(context).load(newsStory.getTypeAttributes().getImageLarge())
                 .apply(Utility.imageHandler())
                 .into(holder.image);
-    }
+    }*/
     @Override
     public int getItemCount()
     {

@@ -4,13 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.bumptech.glide.request.RequestOptions;
-
-import java.io.IOException;
 public class Utility
 {
     public static Utility INSTANCE;

@@ -4,6 +4,8 @@ import android.app.Application;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
+import androidx.paging.LivePagedListBuilder;
+import androidx.paging.PagedList;
 
 import com.example.android_cbc_java.newsstory.NewsStory;
 import com.example.android_cbc_java.newsstory.NewsStoryDao;
@@ -14,13 +16,14 @@ import java.util.List;
 public class NewsRepository
 {
     private NewsStoryDao newsStoryDao;
-    private LiveData<List<NewsStory>> allNews;
+    private LiveData<PagedList<NewsStory>> allNews;
 
     public NewsRepository(Application application)
     {
         NewsStoryRoomDatabase newsStoryRoomDatabase = NewsStoryRoomDatabase.getDatabase(application);
         newsStoryDao = newsStoryRoomDatabase.newsStoryDao();
-        allNews = newsStoryDao.getAllNews();
+        allNews = new LivePagedListBuilder<>(
+                newsStoryDao.getAllNews(), /* page size */ 5).build();
     }
     public int getCount()
     {
@@ -34,7 +37,7 @@ public class NewsRepository
     {
         return newsStoryDao.getNewsStory();
     }
-    LiveData<List<NewsStory>> getAllMonsters()
+    LiveData<PagedList<NewsStory>> getAllNews()
     {
         return allNews;
     }
