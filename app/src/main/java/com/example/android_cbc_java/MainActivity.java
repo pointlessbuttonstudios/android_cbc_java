@@ -24,6 +24,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android_cbc_java.newsstory.NewsStory;
@@ -39,6 +41,8 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity
 {
+    private LinearLayout offline_message_holder;
+    private boolean continueOffline = false;
     private Handler handler = new Handler();
     private boolean isConnected = false;
     private CoordinatorLayout coordinatorLayout;
@@ -57,7 +61,10 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        offline_message_holder = findViewById(R.id.offline_message_holder);
         coordinatorLayout = findViewById(R.id.coordinatorlayout);
+        recyclerView = findViewById(R.id.news_recyclerview);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("CBC News");
         setSupportActionBar(toolbar);
@@ -77,35 +84,50 @@ public class MainActivity extends AppCompatActivity
                     dialog.dismiss();
                     refreshActivity();
                 });
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "CONTINUE OFFLINE",
+                (dialog, which) ->
+                {
+                    dialog.dismiss();
+                    continueOffline = true;
+
+                    // display something showing you're offline
+                    offline_message_holder.setVisibility(View.VISIBLE);
+
+                    // setup from cache previously built from last pull if there's anything
+                    generateDataList(null);
+                });
+        // only continue to check for an internet connection when necessary
         checkConstantly = new Runnable()
         {
             @Override
             public void run()
             {
-                if(isOnline())
+                if(!continueOffline)
                 {
-                    isConnected = true;
-                }
-                else
-                {
-                    isConnected = false;
-                    if(!alertDialog.isShowing())
+                    if(isOnline())
                     {
-                        alertDialog.show();
+                        isConnected = true;
                     }
+                    else
+                    {
+                        isConnected = false;
+                        if(!alertDialog.isShowing())
+                        {
+                            alertDialog.show();
+                        }
+                    }
+                    handler.postDelayed(this,5000);
                 }
-                handler.postDelayed(this,5000);
             }
         };
         checkConstantly.run();
+        // Should happen once at the start of the session
         if(isConnected)
         {
-            alertDialog.dismiss();
             progressDialog.setMessage("Loading....");
             progressDialog.show();
 
             // create handle for the RetrofitInstance interface
-
             GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
             Call<List<NewsStory>> call = service.getAllNews();
             call.enqueue(new Callback<List<NewsStory>>()
@@ -124,6 +146,10 @@ public class MainActivity extends AppCompatActivity
                 }
             });
         }
+    }
+    public void browseOnline(View view)
+    {
+        refreshActivity();
     }
     public boolean isOnline()
     {
@@ -228,26 +254,34 @@ public class MainActivity extends AppCompatActivity
     }
     private void generateDataList(List<NewsStory> newsList)
     {
+        recyclerView = findViewById(R.id.news_recyclerview);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        // if its null, you know you're falling back on setting up from whatever is there in the database
+        if(newsList != null && newsList.size() > 0)
+        {
+            newsStoryViewModel.insertAll(newsList);
+        }
         newsStoryViewModel.getAllNews().observe(this, new Observer<List<NewsStory>>()
         {
             @Override
             public void onChanged(List<NewsStory> newsStories)
             {
+                newsAdapter = new NewsAdapter(getApplicationContext(), newsStoryViewModel.getAllNews().getValue());
+                recyclerView.setAdapter(newsAdapter);
             }
         });
-        recyclerView = findViewById(R.id.news_recyclerview);
-        newsAdapter = new NewsAdapter(this, newsList);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(newsAdapter);
     }
     public void refreshActivity()
     {
+        // Kill it with fire
         handler.removeCallbacks(checkConstantly);
         handler.removeCallbacksAndMessages(null);
         handler = null;
         checkConstantly = null;
 
+        // Start fresh
         Intent intent = getIntent();
         finish();
         startActivity(intent);

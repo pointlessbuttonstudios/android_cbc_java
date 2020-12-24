@@ -21,7 +21,7 @@ import java.util.Locale;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder>
 {
-    private List<NewsStory> newsStories = new ArrayList<>();
+    private List<NewsStory> newsStories;
     private Context context;
 
     public NewsAdapter(Context context, List<NewsStory> data){
@@ -68,7 +68,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     @Override
     public int getItemCount()
     {
-        return newsStories.size();
+        if(newsStories != null)
+        {
+            return newsStories.size();
+        }
+        else return 0;
     }
 
     public void updateRecyclerData(List<NewsStory> data)

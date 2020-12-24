@@ -46,6 +46,29 @@ public class NewsRepository
     {
         new insertAsyncTask(newsStoryDao).execute(news);
     }
+
+    public void insertAll(List<NewsStory> news)
+    {
+        new insertAllAsyncTask(newsStoryDao).execute(news);
+    }
+    private static class insertAllAsyncTask extends AsyncTask<List<NewsStory>, Void, Void>
+    {
+        private NewsStoryDao newsStoryDao;
+        insertAllAsyncTask(NewsStoryDao dao)
+        {
+            newsStoryDao = dao;
+        }
+        @Override
+        protected Void doInBackground(final List<NewsStory>... stories)
+        {
+            for(NewsStory ns : stories[0])
+            {
+                newsStoryDao.insert(ns);
+            }
+            return null;
+        }
+    }
+
     private static class insertAsyncTask extends AsyncTask<NewsStory, Void, Void>
     {
         private NewsStoryDao newsStoryDao;

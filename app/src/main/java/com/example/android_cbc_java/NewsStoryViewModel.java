@@ -36,4 +36,8 @@ public class NewsStoryViewModel extends AndroidViewModel
     {
         newsRepository.update(newsStory);
     }
+    public void insertAll(List<NewsStory> news)
+    {
+        newsRepository.insertAll(news);
+    }
 }
