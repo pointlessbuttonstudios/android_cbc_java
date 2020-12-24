@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.paging.PagedList;
 
 import com.example.android_cbc_java.newsstory.NewsStory;
 
@@ -13,18 +14,18 @@ import java.util.List;
 public class NewsStoryViewModel extends AndroidViewModel
 {
     private NewsRepository newsRepository;
-    private LiveData<List<NewsStory>> allNews;
+    private LiveData<PagedList<NewsStory>> allNews;
     public NewsStoryViewModel(@NonNull Application application)
     {
         super(application);
         newsRepository = new NewsRepository(application);
-        allNews = newsRepository.getAllMonsters();
+        allNews = newsRepository.getAllNews();
     }
     public int getCount()
     {
         return newsRepository.getCount();
     }
-    public LiveData<List<NewsStory>> getAllNews()
+    public LiveData<PagedList<NewsStory>> getAllNews()
     {
         return allNews;
     }
