@@ -1,12 +1,16 @@
 package com.example.android_cbc_java.newsstory;
 
-import androidx.paging.DataSource;
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
+
+import com.example.android_cbc_java.GetDataService;
+
+import java.util.List;
 
 @Dao
 public interface NewsStoryDao
@@ -20,14 +24,8 @@ public interface NewsStoryDao
     @Query("SELECT * FROM news_table WHERE type =:someType")
     NewsStory[] getNewsOfType(String someType);
 
-    /*
-    // The Integer type parameter tells Room to use a
-    // PositionalDataSource object.
-    @Query("SELECT * FROM concerts ORDER BY date DESC")
-    DataSource.Factory<Integer, Concert> concertsByDate();
-    * */
     @Query("SELECT * FROM news_table")
-    DataSource.Factory<Integer, NewsStory> getAllNews();
+    LiveData<List<NewsStory>> getAllNews();
 
     @Query("SELECT * FROM news_table WHERE id=:id")
     NewsStory getNewsStory(String id);

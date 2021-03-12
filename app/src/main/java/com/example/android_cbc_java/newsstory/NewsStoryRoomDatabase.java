@@ -8,6 +8,7 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
 import com.example.android_cbc_java.Converters;
+import com.example.android_cbc_java.TypeAttributes;
 
 @Database(entities = {NewsStory.class}, version = 1, exportSchema = false)
 @TypeConverters({Converters.class})
